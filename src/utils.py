@@ -2,16 +2,15 @@ import pandas as pd
 from io import StringIO
 import os
 
-def read_data_from_azure(blob_service_client, container_name, blob_name):
-    """_summary_
+def read_data_from_azure(blob_service_client:str, container_name:str, blob_name:str) -> pd.DataFrame:
+    """Read instagram post data from Azure blob storage.
 
     Args:
-        blob_service_client (_type_): _description_
-        container_name (_type_): _description_
-        blob_name (_type_): _description_
-
+      connection_string (str): The connection string for the Azure Storage account.
+      container_name (str):The name of the container in Azure Blob Storage.
+      blob_name (str): The name of the blob in Azure Blob Storage.
     Returns:
-        _type_: _description_
+        pd.DataFrame: Dataframe with posts.  
     """    
     # Get a BlobClient for the specified blob
     blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
@@ -30,14 +29,14 @@ def download_model_from_azure(blob_service_client, container_name, blob_name, lo
     """
     Downloads a model from Azure Blob Storage if it's not already present locally.
 
-    Parameters:
-    - connection_string: str. The connection string for the Azure Storage account.
-    - container_name: str. The name of the container in Azure Blob Storage.
-    - blob_name: str. The name of the blob in Azure Blob Storage.
-    - local_model_path: str. The local path where the model will be saved.
+    Args:
+      connection_string (str): The connection string for the Azure Storage account.
+      container_name (str):The name of the container in Azure Blob Storage.
+      blob_name (str): The name of the blob in Azure Blob Storage.
+      local_model_path (str): The local path where the model will be saved.
 
     Returns:
-    - str: Local path to the model file.
+      str: Local path to the model file.
     """
     try:
         # Check if the model already exists locally

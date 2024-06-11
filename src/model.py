@@ -4,14 +4,14 @@ import pandas as pd
 import os
 
 def train_model(data: pd.DataFrame, path: str) -> BERTopic:
-    """_summary_
+    """Train a BERTopic model on Instagram posts.
 
     Args:
-        data (pd.DataFrame): _description_
-        path (str): _description_
+        data (pd.DataFrame): Dataframe with insta posts
+        path (str): Blob storage path
 
     Returns:
-        _type_: _description_
+        BERTopic: Fitted model with insta posts
     """    
     # Fetch the posts to use for model training
     posts = data['posts']
@@ -38,17 +38,17 @@ def train_model(data: pd.DataFrame, path: str) -> BERTopic:
 
     return topic_model
 
-def store_model(local_model_path, blob_service_client, model_name, container_name) -> dict:
-    """_summary_
+def store_model(local_model_path: str, blob_service_client: str, model_name:str, container_name:str) -> dict:
+    """Stores the trained model onto Azure Blob storage.
 
     Args:
-        local_model_path (_type_): _description_
-        blob_service_client (_type_): _description_
-        model_name (_type_): _description_
-        container_name (_type_): _description_
+        local_model_path (str):
+        blob_service_client (str): _description_
+        model_name (str): _description_
+        container_name (str: _description_
 
     Returns:
-        _type_: _description_
+        dict : Status message of the operation
     """    
     try:
         for root, dirs, files in os.walk(local_model_path):
@@ -70,15 +70,15 @@ def store_model(local_model_path, blob_service_client, model_name, container_nam
     except Exception as e:
         return {"status": "error", "message": str(e)}
     
-def predict(text, model_local_path) -> dict:
-    """_summary_
+def predict(text:str, model_local_path:str) -> dict:
+    """Make topic prediction on new posts.
 
     Args:
-        text (_type_): _description_
-        model_local_path (_type_): _description_
+        text (str): Post
+        model_local_path (str): Local model storage path
 
     Returns:
-        _type_: _description_
+        dict: Returns a result dict with topic and probabilities.
     """    
     model = BERTopic.load(model_local_path)
     topic, prob = model.transform([text])
