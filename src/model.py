@@ -3,7 +3,16 @@ from sentence_transformers import SentenceTransformer
 import pandas as pd
 import os
 
-def train_model(data: pd.DataFrame, path: str):
+def train_model(data: pd.DataFrame, path: str) -> BERTopic:
+    """_summary_
+
+    Args:
+        data (pd.DataFrame): _description_
+        path (str): _description_
+
+    Returns:
+        _type_: _description_
+    """    
     # Fetch the posts to use for model training
     posts = data['posts']
 
@@ -29,7 +38,18 @@ def train_model(data: pd.DataFrame, path: str):
 
     return topic_model
 
-def store_model(local_model_path, blob_service_client, model_name, container_name):
+def store_model(local_model_path, blob_service_client, model_name, container_name) -> dict:
+    """_summary_
+
+    Args:
+        local_model_path (_type_): _description_
+        blob_service_client (_type_): _description_
+        model_name (_type_): _description_
+        container_name (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """    
     try:
         for root, dirs, files in os.walk(local_model_path):
             for file in files:
@@ -50,7 +70,16 @@ def store_model(local_model_path, blob_service_client, model_name, container_nam
     except Exception as e:
         return {"status": "error", "message": str(e)}
     
-def predict(text, model_local_path):
+def predict(text, model_local_path) -> dict:
+    """_summary_
+
+    Args:
+        text (_type_): _description_
+        model_local_path (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """    
     model = BERTopic.load(model_local_path)
     topic, prob = model.transform([text])
     return {f"{topic[0]}: {prob[0]}"}

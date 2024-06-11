@@ -3,6 +3,16 @@ from io import StringIO
 import os
 
 def read_data_from_azure(blob_service_client, container_name, blob_name):
+    """_summary_
+
+    Args:
+        blob_service_client (_type_): _description_
+        container_name (_type_): _description_
+        blob_name (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """    
     # Get a BlobClient for the specified blob
     blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
 
